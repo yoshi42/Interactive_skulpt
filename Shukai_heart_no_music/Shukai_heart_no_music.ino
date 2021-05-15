@@ -30,6 +30,7 @@
 	#define button 4
 	#define busy_pin_DF 2
 	bool is_button_pressed = false;
+	bool is_player = false;
 
 	unsigned long time_pas = 0;
 	unsigned long time_pas_prev = 0;    
@@ -57,13 +58,14 @@
 	{
 		Serial.println(is_button_pressed);
 
-		if(digitalRead(button) == LOW){delay(50);is_button_pressed=true;Serial.println("butt");}
+		if(digitalRead(button) == LOW){delay(50);is_button_pressed=true;is_player=true;Serial.println("butt");}
 		
 		if(is_button_pressed==true)
 		{	
 			delay(50);
 			digitalWrite(button_led, LOW);
-
+			mp3_set_volume(20);
+			mp3_play(3);
 			for(int i = 0; i < 35; i++)
 			{
 				vibro70();
@@ -72,45 +74,6 @@
 			digitalWrite(LED, LOW);
 			is_button_pressed=false;
 		}
-	}
-
-	void vibro40()
-	{
-		digitalWrite(vibro2, HIGH);
-		for(int i = 0; i <= 10; i++)
-		{
-			analogWrite(LED, i*1);
-			delay(8);
-		}
-		digitalWrite(vibro2, LOW);
-		delay(150);
-
-		digitalWrite(vibro2, HIGH);
-		for(int i = 0; i <= 10; i++)
-		{
-			analogWrite(LED, 150+(i*10));
-			delay(12);
-		}
-		digitalWrite(vibro2, LOW);
-		delay(300);
-
-		analogWrite(vibro2, 200);
-		for(int i = 10; i >= 0; i--)
-		{
-			analogWrite(LED, 150+(i*10));
-			delay(12);
-		}
-		digitalWrite(vibro2, LOW);
-		delay(100);
-
-		analogWrite(vibro2, 150);
-		for(int i = 10; i >= 0; i--)
-		{
-			analogWrite(LED, i*10);
-			delay(8);
-		}
-		digitalWrite(vibro2, LOW);
-		delay(500);
 	}
 
 void vibro70()
